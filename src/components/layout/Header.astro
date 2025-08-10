@@ -1,6 +1,7 @@
 ---
 import logo from '@/assets/logo.svg'
 import Dropdown from '@/components/Dropdown.astro'
+import LanguageToggle from '@/components/LanguageToggle.astro'
 import HeaderItem from '@/components/layout/HeaderItem.astro'
 import MobileNavToggle from '@/components/layout/MobileNavToggle.astro'
 import Separator from '@/components/layout/Separator.astro'
@@ -61,11 +62,15 @@ export const isNavItem = (item: HeaderItemType): item is NavItemType =>
           </a>
         </li>
         <li class="text-2xl">
+          <LanguageToggle />
+        </li>
+        <li class="text-2xl">
           {config.modeToggle && <ModeToggle />}
         </li>
       </ul>
     </nav>
     <div class="flex items-center justify-center gap-4 text-2xl sm:hidden">
+      <LanguageToggle />
       {config.modeToggle && <ModeToggle />}
       <a href="/search/" aria-label="Search">
         <span class="clickable iconify tabler--search text-xl"></span>
@@ -94,8 +99,12 @@ export const isNavItem = (item: HeaderItemType): item is NavItemType =>
             </li>
           ))
         }
+        <li class="flex flex-col justify-center">
+          <a href="/search/" class="flex items-center" aria-label="Search">
+            <span class="clickable iconify tabler--search"></span>
+          </a>
+        </li>
       </ul>
     </nav>
-    <Separator />
   </div>
 </header>

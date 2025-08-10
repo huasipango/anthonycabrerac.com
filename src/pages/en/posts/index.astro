@@ -1,0 +1,23 @@
+---
+import PageLayout from '@/layouts/PageLayout.astro'
+
+const frontmatter = {
+  title: 'Blog Posts - Anthony Cabrera',
+  description:
+    'Read my latest blog posts about cloud engineering, AWS, and software development.'
+}
+---
+
+<PageLayout frontmatter={frontmatter}>
+  <h1>Blog Posts</h1>
+  <p>
+    Welcome to my blog! Here you'll find posts about cloud engineering, AWS best
+    practices, and software development insights.
+  </p>
+
+  <h2>Latest Posts</h2>
+  <p>Check out my most recent articles below.</p>
+
+  <h2>Categories</h2>
+  <p>Browse posts by topic or technology.</p>
+</PageLayout>

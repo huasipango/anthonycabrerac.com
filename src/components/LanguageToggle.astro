@@ -1,0 +1,128 @@
+---
+import { getLanguageFromPath } from '@/i18n/utils'
+
+const currentLang = getLanguageFromPath(Astro.url.pathname)
+---
+
+<div class="language-toggle">
+  <button
+    class={`lang-btn ${currentLang === 'es' ? 'active' : ''}`}
+    data-lang="es"
+    data-current-path={Astro.url.pathname}
+  >
+    ES
+  </button>
+  <span class="separator">|</span>
+  <button
+    class={`lang-btn ${currentLang === 'en' ? 'active' : ''}`}
+    data-lang="en"
+    data-current-path={Astro.url.pathname}
+  >
+    EN
+  </button>
+</div>
+
+<script>
+  console.log('LanguageToggle script loaded')
+
+  function setupLanguageToggle() {
+    console.log('Setting up language toggle functionality')
+
+    // Find all language toggle buttons
+    const buttons = document.querySelectorAll('.lang-btn')
+    console.log('Found buttons:', buttons.length)
+
+    buttons.forEach((button) => {
+      // Remove any existing listeners to avoid duplicates
+      button.removeEventListener('click', handleLanguageToggle)
+      // Add new listener
+      button.addEventListener('click', handleLanguageToggle)
+      console.log('Added listener to button:', button)
+    })
+  }
+
+  function handleLanguageToggle(e: Event) {
+    console.log('Button clicked!', e)
+    e.preventDefault()
+
+    const button = e.target as HTMLElement
+    const lang = button.getAttribute('data-lang')
+    const currentPath = button.getAttribute('data-current-path')
+
+    console.log('Language toggle clicked:', { lang, currentPath })
+
+    let newPath
+
+    if (lang === 'es') {
+      // Switch to Spanish (remove /en/ prefix and clean up duplicate posts/)
+      newPath =
+        currentPath
+          ?.replace('/en/', '/')
+          ?.replace(/^\/posts\/posts\//, '/posts/') || '/'
+    } else {
+      // Switch to English (add /en/ prefix and clean up duplicate posts/)
+      if (currentPath === '/') {
+        newPath = '/en/'
+      } else {
+        // Clean up any duplicate posts/ in the path first
+        const cleanPath =
+          currentPath?.replace(/^\/posts\/posts\//, '/posts/') || '/'
+        newPath = cleanPath.replace(/^\//, '/en/')
+      }
+    }
+
+    console.log('Navigating to:', newPath)
+    window.location.href = newPath
+  }
+
+  // Set up the toggle functionality immediately
+  setupLanguageToggle()
+
+  // Check every 500ms if new buttons appeared
+  setInterval(() => {
+    setupLanguageToggle()
+  }, 500)
+
+  // Also check when the page becomes visible (for back/forward navigation)
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) {
+      console.log('Page became visible, re-setting up language toggle')
+      setTimeout(setupLanguageToggle, 100)
+    }
+  })
+</script>
+
+<style>
+  .language-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+  }
+
+  .lang-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    transition: all 0.2s;
+    font-weight: 500;
+  }
+
+  .lang-btn:hover {
+    background-color: var(--theme-accent);
+    color: var(--theme-accent-contrast);
+  }
+
+  .lang-btn.active {
+    background-color: var(--theme-accent);
+    color: var(--theme-accent-contrast);
+    font-weight: 600;
+  }
+
+  .separator {
+    color: var(--theme-text-light);
+    font-weight: 300;
+  }
+</style>
