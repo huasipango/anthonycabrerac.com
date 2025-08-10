@@ -28,4 +28,34 @@
       --accent-bg: 35, 39, 48;
     }
   }
+
+  .scheme-icecream-cherry {
+    --accent: 214, 31, 31; /* #D61F1F */
+    --accent-bg: 255, 244, 244; /* #FFF4F4 */
+
+    &[data-mode='dark'] {
+      --accent: 255, 90, 90; /* #FF5A5A */
+      --accent-bg: 32, 22, 24; /* #201618 */
+    }
+  }
+
+  .scheme-icecream-strawberry {
+    --accent: 225, 29, 72; /* #E11D48 */
+    --accent-bg: 255, 245, 247; /* #FFF5F7 */
+
+    &[data-mode='dark'] {
+      --accent: 255, 56, 99; /* #FF3863 */
+      --accent-bg: 31, 24, 28; /* #1F181C */
+    }
+  }
+
+  .scheme-icecream-coral {
+    --accent: 255, 107, 107; /* #FF6B6B */
+    --accent-bg: 255, 249, 245; /* #FFF9F5 */
+
+    &[data-mode='dark'] {
+      --accent: 255, 138, 138; /* #FF8A8A */
+      --accent-bg: 30, 26, 23; /* #1E1A17 */
+    }
+  }
 }

@@ -1,11 +1,11 @@
 ---
 layout: '@/layouts/LandingLayout.astro'
-title: Nordlys
-background: true
+title: Anthony Cabrera
+background: false
 logo: true
 ---
 
-A minimal Astro blog theme.\
-Ideal for a personal [blog](/posts/) and showcasing a [projects](/projects/) portfolio.\
-Fully customizable, dark mode & built-in color schemes.\
+Welcome to my web site.\
+Start reading my [blog](/posts/) and know what [projects](/projects/) I am doing nowadays.\
+If you want to build something incredible, I would love to be part of it.\
 Read more in the [about](/about/) section.

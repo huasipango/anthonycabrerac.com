@@ -1,14 +1,14 @@
 ---
-title: Nordlys Astro blog theme
-url: https://github.com/FjellOverflow/nordlys
-startDate: 2024-09-30
+title: Anthony Cabrera Web Site
+url: https://anthonycabrerac.com/
+startDate: 2025-08-10
 tags:
-  - astro
-  - tailwindcss
+  - software
+  - engineering
 previewImage: 'public/preview.png'
 ---
 
-A minimal Astro blog theme.
-Ideal for a personal blog and showcasing a projects portfolio.
-Fully customizable, dark mode & built-in color scheme.
+Welcome to my web site.
+Start reading my blog and know what projects I am doing nowadays.
+If you want to build something incredible, I would love to be part of it.
 Read more in the [about](/about) section.

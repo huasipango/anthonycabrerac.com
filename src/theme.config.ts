@@ -52,7 +52,7 @@ export default defineThemeConfig({
   locale: 'en',
   mode: 'light',
   modeToggle: true,
-  colorScheme: 'scheme-aurora',
+  colorScheme: 'scheme-icecream-cherry',
   openGraphImage: undefined,
   postsPerPage: 4,
   projectsPerPage: 3,
