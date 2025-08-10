@@ -5,7 +5,8 @@ background: false
 logo: true
 ---
 
-Welcome to my web site.\
-Start reading my [blog](/posts/) and know what [projects](/projects/) I am doing nowadays.\
-If you want to build something incredible, I would love to be part of it.\
-Read more in the [about](/about/) section.
+Hey, I'm Anthony.\
+A Senior Cloud Engineer and [JCI](https://www.jciecuador.com/) Volunteer.\
+Check out the [blog](/posts/) and [projects](/projects/) I’m working on.\
+If you’re working on something ambitious, I’d love to help make it real.\
+More about me in the [about](/about/) page.
