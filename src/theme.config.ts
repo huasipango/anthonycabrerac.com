@@ -50,7 +50,7 @@ export default defineThemeConfig({
 
   // optional settings
   locale: 'en',
-  mode: 'dark',
+  mode: 'light',
   modeToggle: true,
   colorScheme: 'scheme-aurora',
   openGraphImage: undefined,
