@@ -1,29 +1,44 @@
 import { defineThemeConfig } from './types'
 
 export default defineThemeConfig({
-  site: 'https://nordlys.fjelloverflow.dev',
-  title: 'Nordlys',
-  description: 'A minimal Astro blog theme',
-  author: 'FjellOverflow',
+  site: 'https://anthonycabrerac.com',
+  title: 'Anthony Cabrera',
+  description: 'Software Engineer',
+  author: 'Anthony Cabrera',
   navbarItems: [
     { label: 'Blog', href: '/posts/' },
     { label: 'Projects', href: '/projects/' },
     { label: 'Tags', href: '/tags/' },
-    { label: 'About', href: '/about/' },
-    {
-      label: 'Other pages',
-      children: [
-        { label: 'Landing page', href: '/' },
-        { label: '404 page', href: '/404' },
-        { label: 'Author: FjellOverflow', href: '/authors/FjellOverflow/' },
-        { label: 'Tag: documentation', href: '/tags/documentation/' }
-      ]
-    }
+    { label: 'About', href: '/about/' }
+    // {
+    //   label: 'Other pages',
+    //   children: [
+    //     { label: 'Landing page', href: '/' },
+    //     { label: '404 page', href: '/404' },
+    //     { label: 'Author: FjellOverflow', href: '/authors/FjellOverflow/' },
+    //     { label: 'Tag: documentation', href: '/tags/documentation/' }
+    //   ]
+    // }
   ],
   footerItems: [
     {
+      icon: 'tabler--brand-linkedin',
+      href: 'https://www.linkedin.com/in/ianthoro/',
+      label: 'LinkedIn'
+    },
+    {
+      icon: 'tabler--brand-instagram',
+      href: 'https://www.instagram.com/ianthoro',
+      label: 'Instagram'
+    },
+    {
+      icon: 'tabler--brand-facebook',
+      href: 'https://www.facebook.com/ianthoro',
+      label: 'Facebook'
+    },
+    {
       icon: 'tabler--brand-github',
-      href: 'https://github.com/FjellOverflow/nordlys',
+      href: 'https://github.com/huasipango',
       label: 'Github'
     },
     {
@@ -37,7 +52,7 @@ export default defineThemeConfig({
   locale: 'en',
   mode: 'dark',
   modeToggle: true,
-  colorScheme: 'scheme-mono',
+  colorScheme: 'scheme-aurora',
   openGraphImage: undefined,
   postsPerPage: 4,
   projectsPerPage: 3,

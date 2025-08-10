@@ -1,0 +1,12 @@
+name = "anthonycabrerac"
+compatibility_date = "2024-01-01"
+compatibility_flags = ["nodejs_compat"]
+
+[env.preview]
+name = "anthonycabrerac-preview"
+
+[env.production]
+name = "anthonycabrerac"
+
+[build]
+command = "pnpm build"

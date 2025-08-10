@@ -8,6 +8,8 @@ import codeHeadersPlugin from './src/plugins/codeHeadersPlugin'
 import readingTimePlugin from './src/plugins/readingTimePlugin'
 import config from './src/theme.config'
 
+import cloudflare from '@astrojs/cloudflare'
+
 export default defineConfig({
   site: config.site,
   integrations: [mdx(), sitemap()],
@@ -22,6 +24,11 @@ export default defineConfig({
   },
 
   vite: {
-    plugins: [tailwindcss()]
-  }
+    plugins: [tailwindcss()],
+    ssr: {
+      external: ['@resvg/resvg-js', 'fs', 'path', 'child_process']
+    }
+  },
+
+  adapter: cloudflare()
 })
