@@ -2,8 +2,9 @@ import { defineThemeConfig } from './types'
 
 export default defineThemeConfig({
   site: 'https://anthonycabrerac.com',
-  title: 'Anthony Cabrera',
-  description: 'Software Engineer',
+  title: 'Anthony Cabrera — Cloud Engineer | Blog & Projects',
+  description:
+    'Cloud engineer helping teams build reliable products on AWS. Read the blog, explore projects, and reach out for collaborations.',
   author: 'Anthony Cabrera',
   navbarItems: [
     { label: 'Blog', href: '/posts/' },
@@ -53,7 +54,7 @@ export default defineThemeConfig({
   mode: 'light',
   modeToggle: true,
   colorScheme: 'scheme-icecream-cherry',
-  openGraphImage: undefined,
+  openGraphImage: '/web-app-manifest-192x192.png',
   postsPerPage: 4,
   projectsPerPage: 3,
   scrollProgress: false,
