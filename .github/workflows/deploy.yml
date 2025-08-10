@@ -60,8 +60,7 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          projectName: anthonycabrerac
-          directory: dist
+          command: pages deploy dist --project-name=anthonycabrerac
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Deploy Preview (PR)
@@ -70,7 +69,5 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          projectName: anthonycabrerac
-          directory: dist
+          command: pages deploy dist --project-name=anthonycabrerac
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
-          environment: preview
