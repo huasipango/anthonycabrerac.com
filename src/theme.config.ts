@@ -2,7 +2,7 @@ import { defineThemeConfig } from './types'
 
 export default defineThemeConfig({
   site: 'https://anthonycabrerac.com',
-  title: 'Anthony Cabrera — Cloud Engineer | Blog & Projects',
+  title: 'Anthony Cabrera',
   description:
     'Cloud engineer helping teams build reliable products on AWS. Read the blog, explore projects, and reach out for collaborations.',
   author: 'Anthony Cabrera',
