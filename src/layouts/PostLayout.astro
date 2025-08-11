@@ -2,6 +2,7 @@
 import AdjacentPostsBar from '@/components/AdjacentPostsBar.astro'
 import TagsBar from '@/components/TagsBar.astro'
 import ToC from '@/components/ToC.astro'
+import { getLanguageFromPath, t } from '@/i18n/utils'
 import PageLayout, {
   type Props as PageLayoutProps
 } from '@/layouts/PageLayout.astro'
@@ -15,6 +16,7 @@ export interface Props {
 }
 
 const { post } = Astro.props
+const currentLang = getLanguageFromPath(Astro.url.pathname)
 
 const {
   Content,
@@ -34,7 +36,7 @@ const frontmatter: PageLayoutProps['frontmatter'] = {
   <div slot="top" class="mt-4">
     <a href="/posts/" class="clickable flex w-fit items-center gap-1">
       <span class="iconify tabler--arrow-left text-xl"></span>
-      Back to all posts
+      {t('common.backToAllPosts', currentLang)}
     </a>
   </div>
 
@@ -43,13 +45,17 @@ const frontmatter: PageLayoutProps['frontmatter'] = {
 
   <div class="mt-4">
     <span class="opacity-75"
-      >Published on <time datetime={post.data.publishedDate.toISOString()}
-        >{toDateString(post.data.publishedDate)}</time
-      > by</span
-    >
+      >{
+        t('common.publishedOn', currentLang, {
+          date: toDateString(post.data.publishedDate)
+        })
+      }
+    </span>
     <a class="clickable" href={`/authors/${post.data.author}/`}
       >{post.data.author}</a
-    > · <span class="whitespace-nowrap opacity-75">{readingTime} </span>
+    > · <span class="whitespace-nowrap opacity-75"
+      >{t('common.readTime', currentLang, { time: readingTime })}</span
+    >
   </div>
 
   {

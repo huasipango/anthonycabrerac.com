@@ -5,6 +5,7 @@ export const translations = {
     'nav.tags': 'Etiquetas',
     'nav.about': 'Acerca de',
     'nav.search': 'Buscar',
+    'nav.home': 'Inicio',
     'footer.linkedin': 'LinkedIn',
     'footer.instagram': 'Instagram',
     'footer.facebook': 'Facebook',
@@ -12,7 +13,7 @@ export const translations = {
     'footer.rss': 'Feed RSS',
     'common.readMore': 'Leer más',
     'common.readTime': '{{time}} min de lectura',
-    'common.publishedOn': 'Publicado el {{date}}',
+    'common.publishedOn': 'Publicado el {{date}} por',
     'common.tags': 'Etiquetas',
     'common.author': 'Autor',
     'common.search': 'Buscar en el sitio...',
@@ -21,7 +22,11 @@ export const translations = {
     'common.skipToContent': 'Saltar al contenido principal',
     'common.about': 'Acerca de',
     'common.blog': 'Blog',
-    'common.projects': 'Proyectos'
+    'common.projects': 'Proyectos',
+    'common.backToAllPosts': 'Volver a todos los posts',
+    'common.tableOfContents': 'Tabla de Contenidos',
+    'common.showMore': 'Mostrar más',
+    'common.by': 'por'
   },
   en: {
     'nav.blog': 'Blog',
@@ -29,6 +34,7 @@ export const translations = {
     'nav.tags': 'Tags',
     'nav.about': 'About',
     'nav.search': 'Search',
+    'nav.home': 'Home',
     'footer.linkedin': 'LinkedIn',
     'footer.instagram': 'Instagram',
     'footer.facebook': 'Facebook',
@@ -36,7 +42,7 @@ export const translations = {
     'footer.rss': 'RSS Feed',
     'common.readMore': 'Read more',
     'common.readTime': '{{time}} min read',
-    'common.publishedOn': 'Published on {{date}}',
+    'common.publishedOn': 'Published on {{date}} by',
     'common.tags': 'Tags',
     'common.author': 'Author',
     'common.search': 'Search the site...',
@@ -45,6 +51,10 @@ export const translations = {
     'common.skipToContent': 'Skip to main content',
     'common.about': 'About',
     'common.blog': 'Blog',
-    'common.projects': 'Projects'
+    'common.projects': 'Projects',
+    'common.backToAllPosts': 'Back to all posts',
+    'common.tableOfContents': 'Table of Contents',
+    'common.showMore': 'Show more',
+    'common.by': 'by'
   }
 }

@@ -23,8 +23,6 @@ const currentLang = getLanguageFromPath(Astro.url.pathname)
 </div>
 
 <script>
-  console.log('LanguageToggle script loaded')
-
   function setupLanguageToggle() {
     console.log('Setting up language toggle functionality')
 
@@ -51,6 +49,9 @@ const currentLang = getLanguageFromPath(Astro.url.pathname)
 
     console.log('Language toggle clicked:', { lang, currentPath })
 
+    // Store the selected language in localStorage
+    localStorage.setItem('preferredLanguage', lang || 'es')
+
     let newPath
 
     if (lang === 'es') {
@@ -75,19 +76,62 @@ const currentLang = getLanguageFromPath(Astro.url.pathname)
     window.location.href = newPath
   }
 
-  // Set up the toggle functionality immediately
+  // Function to get the preferred language from localStorage or URL
+  function getPreferredLanguage(): 'es' | 'en' {
+    // First check localStorage
+    const storedLang = localStorage.getItem('preferredLanguage') as 'es' | 'en'
+    if (storedLang) {
+      return storedLang
+    }
+
+    // Fallback to URL-based detection
+    if (window.location.pathname.startsWith('/en/')) {
+      return 'en'
+    }
+    return 'es'
+  }
+
+  // Function to update the active state of language buttons
+  function updateLanguageButtonStates() {
+    const currentLang = getPreferredLanguage()
+    const buttons = document.querySelectorAll('.lang-btn')
+
+    buttons.forEach((button) => {
+      const buttonLang = button.getAttribute('data-lang')
+      if (buttonLang === currentLang) {
+        button.classList.add('active')
+      } else {
+        button.classList.remove('active')
+      }
+    })
+  }
+
+  // Set up the toggle functionality immediately on first load
   setupLanguageToggle()
+  updateLanguageButtonStates()
 
-  // Check every 500ms if new buttons appeared
-  setInterval(() => {
+  // Listen for Astro's navigation events - much more efficient than setInterval!
+  document.addEventListener('astro:page-load', () => {
+    console.log('Page loaded via Astro navigation, setting up language toggle')
     setupLanguageToggle()
-  }, 500)
+    updateLanguageButtonStates()
+  })
 
-  // Also check when the page becomes visible (for back/forward navigation)
+  // Also listen for when the page becomes visible (for back/forward navigation)
   document.addEventListener('visibilitychange', () => {
     if (!document.hidden) {
       console.log('Page became visible, re-setting up language toggle')
-      setTimeout(setupLanguageToggle, 100)
+      setTimeout(() => {
+        setupLanguageToggle()
+        updateLanguageButtonStates()
+      }, 100)
+    }
+  })
+
+  // Listen for storage changes (in case user changes language in another tab)
+  window.addEventListener('storage', (e) => {
+    if (e.key === 'preferredLanguage') {
+      updateLanguageButtonStates()
     }
   })
 </script>
