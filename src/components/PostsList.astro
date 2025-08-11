@@ -6,9 +6,10 @@ import type { CollectionEntry } from 'astro:content'
 
 export interface Props {
   posts: CollectionEntry<'posts'>[]
+  language?: 'es' | 'en'
 }
 
-const { posts } = Astro.props
+const { posts, language = 'es' } = Astro.props
 
 posts.sort(sortPosts)
 ---
@@ -17,7 +18,7 @@ posts.sort(sortPosts)
   {
     posts.map((post, index) => (
       <li class="pl-0">
-        <PostPreview {post} />
+        <PostPreview {post} {language} />
         {index !== posts.length - 1 && <Separator class="mt-6 mb-6" />}
       </li>
     ))

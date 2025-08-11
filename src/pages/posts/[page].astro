@@ -29,7 +29,7 @@ const frontmatter: PageLayoutProps['frontmatter'] = {
     {frontmatter.title}
     {page.currentPage > 1 && <span>{` (page ${page.currentPage})`}</span>}
   </h1>
-  <PostsList posts={page.data} />
+  <PostsList posts={page.data} language="es" />
 
   <Pagination slot="bottom" page={page} />
 </PageLayout>

@@ -6,35 +6,28 @@ import PageLayout, {
 } from '@/layouts/PageLayout.astro'
 import config from '@/theme.config'
 import { getEnglishPosts } from '@/util/posts'
+import type { GetStaticPaths, InferGetStaticPropsType } from 'astro'
 
-const posts = await getEnglishPosts()
-const totalPages = Math.ceil(posts.length / config.postsPerPage)
-const currentPage = 1
-const startIndex = 0
-const endIndex = config.postsPerPage
-const pagePosts = posts.slice(startIndex, endIndex)
+export const getStaticPaths = (async ({ paginate }) => {
+  const posts = await getEnglishPosts()
+
+  return paginate(posts, { pageSize: config.postsPerPage })
+}) satisfies GetStaticPaths
+
+type Props = InferGetStaticPropsType<typeof getStaticPaths>
+
+const { page } = Astro.props
 
 const frontmatter: PageLayoutProps['frontmatter'] = {
   title: 'Blog Posts',
   activeHeaderLink: 'Blog'
-}
-
-// Create page object for pagination
-const page = {
-  data: pagePosts,
-  currentPage,
-  lastPage: totalPages,
-  url: {
-    current: new URL('/en/posts/', Astro.site),
-    next: totalPages > 1 ? new URL('/en/posts/2/', Astro.site) : undefined,
-    prev: undefined
-  }
 }
 ---
 
 <PageLayout {frontmatter}>
   <h1>
     {frontmatter.title}
+    {page.currentPage > 1 && <span>{` (page ${page.currentPage})`}</span>}
   </h1>
   <PostsList posts={page.data} language="en" />
 

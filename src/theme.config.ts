@@ -9,8 +9,8 @@ export default defineThemeConfig({
   navbarItems: [
     { label: 'Blog', href: '/posts/' },
     { label: 'Proyectos', href: '/projects/' },
-    { label: 'Etiquetas', href: '/tags/' },
     { label: 'Acerca de', href: '/about/' }
+    //{ label: 'Etiquetas', href: '/tags/' },
     // {
     //   label: 'Other pages',
     //   children: [
