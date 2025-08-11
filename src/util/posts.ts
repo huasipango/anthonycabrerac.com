@@ -10,11 +10,45 @@ export const getPosts = async (
   author?: string,
   includeDrafts = import.meta.env.DEV
 ) => {
-  const posts = await getCollection('posts')
+  const posts = await getCollection('posts', ({ id }) => !id.startsWith('en/'))
 
-  posts.sort(sortPosts)
+  // Clean up the IDs by removing the 'posts/' prefix
+  const cleanPosts = posts.map((post) => ({
+    ...post,
+    id: post.id.replace('posts/', '')
+  }))
 
-  return posts
+  cleanPosts.sort(sortPosts)
+
+  return cleanPosts
+    .filter(
+      (p) =>
+        !tag || p.data.tags.some((t) => t.toLowerCase() === tag.toLowerCase())
+    )
+    .filter(
+      (p) => !author || p.data.author.toLowerCase() === author.toLowerCase()
+    )
+    .filter((p) => includeDrafts || !p.data.draft)
+}
+
+export const getEnglishPosts = async (
+  tag?: string,
+  author?: string,
+  includeDrafts = import.meta.env.DEV
+) => {
+  const posts = await getCollection('posts', ({ id }) =>
+    id.startsWith('en/posts/')
+  )
+
+  // Clean up the IDs by removing the 'en/posts/' prefix
+  const cleanPosts = posts.map((post) => ({
+    ...post,
+    id: post.id.replace('en/posts/', '')
+  }))
+
+  cleanPosts.sort(sortPosts)
+
+  return cleanPosts
     .filter(
       (p) =>
         !tag || p.data.tags.some((t) => t.toLowerCase() === tag.toLowerCase())

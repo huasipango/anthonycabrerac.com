@@ -1,8 +1,10 @@
 ---
 import Hero, { type Props as HeroProps } from '@/components/Hero.astro'
+import LanguageToggleLanding from '@/components/LanguageToggleLanding.astro'
 import FooterItem from '@/components/layout/FooterItem.astro'
 import Separator from '@/components/layout/Separator.astro'
 import ModeToggle from '@/components/mode/ModeToggle.astro'
+import { getLanguageFromPath } from '@/i18n/utils'
 import BaseLayout, {
   type Props as BaseLayoutProps
 } from '@/layouts/BaseLayout.astro'
@@ -15,6 +17,7 @@ export type Props = BaseLayoutProps &
   }
 
 const { frontmatter } = Astro.props
+const currentLang = getLanguageFromPath(Astro.url.pathname)
 
 const latestPost = (await getPosts())[0]
 ---
@@ -36,7 +39,13 @@ const latestPost = (await getPosts())[0]
               <div class="mt-8">
                 <span class="text-2xl sm:text-3xl">
                   Read my latest post{' '}
-                  <a href={`/posts/${latestPost.id}/`}>
+                  <a
+                    href={
+                      currentLang === 'en'
+                        ? `/en/posts/${latestPost.id}/`
+                        : `/posts/${latestPost.id}/`
+                    }
+                  >
                     {latestPost.data.title}
                   </a>
                 </span>
@@ -54,6 +63,7 @@ const latestPost = (await getPosts())[0]
 
           <div class="grow"></div>
 
+          <LanguageToggleLanding />
           {config.modeToggle && <ModeToggle />}
         </div>
       </footer>

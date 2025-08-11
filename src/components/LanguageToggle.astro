@@ -1,0 +1,172 @@
+---
+import { getLanguageFromPath } from '@/i18n/utils'
+
+const currentLang = getLanguageFromPath(Astro.url.pathname)
+---
+
+<div class="language-toggle">
+  <button
+    class={`lang-btn ${currentLang === 'es' ? 'active' : ''}`}
+    data-lang="es"
+    data-current-path={Astro.url.pathname}
+  >
+    ES
+  </button>
+  <span class="separator">|</span>
+  <button
+    class={`lang-btn ${currentLang === 'en' ? 'active' : ''}`}
+    data-lang="en"
+    data-current-path={Astro.url.pathname}
+  >
+    EN
+  </button>
+</div>
+
+<script>
+  function setupLanguageToggle() {
+    console.log('Setting up language toggle functionality')
+
+    // Find all language toggle buttons
+    const buttons = document.querySelectorAll('.lang-btn')
+    console.log('Found buttons:', buttons.length)
+
+    buttons.forEach((button) => {
+      // Remove any existing listeners to avoid duplicates
+      button.removeEventListener('click', handleLanguageToggle)
+      // Add new listener
+      button.addEventListener('click', handleLanguageToggle)
+      console.log('Added listener to button:', button)
+    })
+  }
+
+  function handleLanguageToggle(e: Event) {
+    console.log('Button clicked!', e)
+    e.preventDefault()
+
+    const button = e.target as HTMLElement
+    const lang = button.getAttribute('data-lang')
+    const currentPath = button.getAttribute('data-current-path')
+
+    console.log('Language toggle clicked:', { lang, currentPath })
+
+    // Store the selected language in localStorage
+    localStorage.setItem('preferredLanguage', lang || 'es')
+
+    let newPath
+
+    if (lang === 'es') {
+      // Switch to Spanish (remove /en/ prefix and clean up duplicate posts/)
+      newPath =
+        currentPath
+          ?.replace('/en/', '/')
+          ?.replace(/^\/posts\/posts\//, '/posts/') || '/'
+    } else {
+      // Switch to English (add /en/ prefix and clean up duplicate posts/)
+      if (currentPath === '/') {
+        newPath = '/en/'
+      } else {
+        // Clean up any duplicate posts/ in the path first
+        const cleanPath =
+          currentPath?.replace(/^\/posts\/posts\//, '/posts/') || '/'
+        newPath = cleanPath.replace(/^\//, '/en/')
+      }
+    }
+
+    console.log('Navigating to:', newPath)
+    window.location.href = newPath
+  }
+
+  // Function to get the preferred language from localStorage or URL
+  function getPreferredLanguage(): 'es' | 'en' {
+    // First check localStorage
+    const storedLang = localStorage.getItem('preferredLanguage') as 'es' | 'en'
+    if (storedLang) {
+      return storedLang
+    }
+
+    // Fallback to URL-based detection
+    if (window.location.pathname.startsWith('/en/')) {
+      return 'en'
+    }
+    return 'es'
+  }
+
+  // Function to update the active state of language buttons
+  function updateLanguageButtonStates() {
+    const currentLang = getPreferredLanguage()
+    const buttons = document.querySelectorAll('.lang-btn')
+
+    buttons.forEach((button) => {
+      const buttonLang = button.getAttribute('data-lang')
+      if (buttonLang === currentLang) {
+        button.classList.add('active')
+      } else {
+        button.classList.remove('active')
+      }
+    })
+  }
+
+  // Set up the toggle functionality immediately on first load
+  setupLanguageToggle()
+  updateLanguageButtonStates()
+
+  // Listen for Astro's navigation events - much more efficient than setInterval!
+  document.addEventListener('astro:page-load', () => {
+    console.log('Page loaded via Astro navigation, setting up language toggle')
+    setupLanguageToggle()
+    updateLanguageButtonStates()
+  })
+
+  // Also listen for when the page becomes visible (for back/forward navigation)
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) {
+      console.log('Page became visible, re-setting up language toggle')
+      setTimeout(() => {
+        setupLanguageToggle()
+        updateLanguageButtonStates()
+      }, 100)
+    }
+  })
+
+  // Listen for storage changes (in case user changes language in another tab)
+  window.addEventListener('storage', (e) => {
+    if (e.key === 'preferredLanguage') {
+      updateLanguageButtonStates()
+    }
+  })
+</script>
+
+<style>
+  .language-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+  }
+
+  .lang-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    transition: all 0.2s;
+    font-weight: 500;
+  }
+
+  .lang-btn:hover {
+    background-color: var(--theme-accent);
+    color: var(--theme-accent-contrast);
+  }
+
+  .lang-btn.active {
+    background-color: var(--theme-accent);
+    color: var(--theme-accent-contrast);
+    font-weight: 600;
+  }
+
+  .separator {
+    color: var(--theme-text-light);
+    font-weight: 300;
+  }
+</style>

@@ -8,9 +8,9 @@ export default defineThemeConfig({
   author: 'Anthony Cabrera',
   navbarItems: [
     { label: 'Blog', href: '/posts/' },
-    { label: 'Projects', href: '/projects/' },
-    { label: 'Tags', href: '/tags/' },
-    { label: 'About', href: '/about/' }
+    { label: 'Proyectos', href: '/projects/' },
+    { label: 'Acerca de', href: '/about/' }
+    //{ label: 'Etiquetas', href: '/tags/' },
     // {
     //   label: 'Other pages',
     //   children: [
@@ -40,17 +40,17 @@ export default defineThemeConfig({
     {
       icon: 'tabler--brand-github',
       href: 'https://github.com/huasipango',
-      label: 'Github'
+      label: 'GitHub'
     },
     {
       icon: 'tabler--rss',
       href: '/feed.xml',
-      label: 'RSS feed'
+      label: 'Feed RSS'
     }
   ],
 
   // optional settings
-  locale: 'en',
+  locale: 'es',
   mode: 'light',
   modeToggle: true,
   colorScheme: 'scheme-icecream-cherry',

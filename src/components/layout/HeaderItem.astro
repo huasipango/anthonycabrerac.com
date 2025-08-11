@@ -1,4 +1,5 @@
 ---
+import { getLocalizedUrl, t } from '@/i18n/utils'
 import type { NavItem } from '@/types'
 import { isAbsolute } from '@/util'
 import type { JSX } from 'astro/jsx-runtime'
@@ -7,25 +8,50 @@ export interface Props {
   item: NavItem
   isActive?: boolean
   role?: JSX.AriaRole
+  currentLang?: 'es' | 'en'
 }
 
 const {
   isActive = false,
   item: { href, icon, label },
-  role
+  role,
+  currentLang = 'es'
 } = Astro.props
+
+// Get the translation key for the navbar item
+const getTranslationKey = (label: string) => {
+  const labelMap: Record<string, string> = {
+    Blog: 'nav.blog',
+    Proyectos: 'nav.projects',
+    Tags: 'nav.tags',
+    About: 'nav.about',
+    'Acerca de': 'nav.about',
+    Inicio: 'nav.home',
+    Home: 'nav.home'
+  }
+  return labelMap[label] || label
+}
+
+const translationKey = getTranslationKey(label)
+
+// Generate localized URL that maintains the current language
+const localizedHref = isAbsolute(href)
+  ? href
+  : getLocalizedUrl(href, currentLang)
 ---
 
 <a
-  href={href}
+  href={localizedHref}
   class={`flex items-center gap-1 whitespace-nowrap ${
     isActive ? 'text-accent/100' : 'clickable'
   }`}
   target={isAbsolute(href) ? '_blank' : '_self'}
   {role}
+  data-original-href={href}
+  data-current-lang={currentLang}
 >
   {icon && <span class={`iconify text-xl ${icon}`} />}
   <span class={isActive ? `underline` : ''}>
-    {label}
+    {t(translationKey, currentLang)}
   </span>
 </a>

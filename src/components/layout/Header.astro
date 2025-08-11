@@ -1,10 +1,12 @@
 ---
 import logo from '@/assets/logo.svg'
 import Dropdown from '@/components/Dropdown.astro'
+import LanguageToggle from '@/components/LanguageToggle.astro'
 import HeaderItem from '@/components/layout/HeaderItem.astro'
 import MobileNavToggle from '@/components/layout/MobileNavToggle.astro'
 import Separator from '@/components/layout/Separator.astro'
 import ModeToggle from '@/components/mode/ModeToggle.astro'
+import { getLanguageFromPath, t } from '@/i18n/utils'
 import config from '@/theme.config'
 import type {
   HeaderItem as HeaderItemType,
@@ -17,17 +19,21 @@ export interface Props {
 }
 
 const { activeHeaderLink } = Astro.props
+const currentLang = getLanguageFromPath(Astro.url.pathname)
 
 export const isNavItem = (item: HeaderItemType): item is NavItemType =>
-  Object.hasOwn(item, 'href')
+  'href' in item
 ---
 
 <header>
   <a href="#main" class="absolute -top-full left-8 px-2 py-2 focus:top-8"
-    >Skip to main content</a
+    >{t('common.skipToContent', currentLang)}</a
   >
   <div class="flex justify-between py-4 sm:py-8">
-    <a href="/" class="text-accent flex gap-2 text-2xl font-semibold">
+    <a
+      href={currentLang === 'en' ? '/en/' : '/'}
+      class="text-accent flex gap-2 text-2xl font-semibold"
+    >
       <Image
         alt="Nordlys logo, a drawing of two gray mountains with green northern lights in the background"
         src={logo}
@@ -48,17 +54,25 @@ export const isNavItem = (item: HeaderItemType): item is NavItemType =>
                     activeHeaderLink === item.label ||
                     activeHeaderLink === item.href
                   }
+                  currentLang={currentLang}
                 />
               ) : (
-                <Dropdown {item} {activeHeaderLink} />
+                <Dropdown {item} {activeHeaderLink} {currentLang} />
               )}
             </li>
           ))
         }
         <li class="text-2xl">
-          <a href="/search/" class="flex items-center" aria-label="Search">
+          <a
+            href="/search/"
+            class="flex items-center"
+            aria-label={t('common.search', currentLang)}
+          >
             <span class="clickable iconify tabler--search"></span>
           </a>
+        </li>
+        <li class="text-2xl">
+          <LanguageToggle />
         </li>
         <li class="text-2xl">
           {config.modeToggle && <ModeToggle />}
@@ -66,8 +80,9 @@ export const isNavItem = (item: HeaderItemType): item is NavItemType =>
       </ul>
     </nav>
     <div class="flex items-center justify-center gap-4 text-2xl sm:hidden">
+      <LanguageToggle />
       {config.modeToggle && <ModeToggle />}
-      <a href="/search/" aria-label="Search">
+      <a href="/search/" aria-label={t('common.search', currentLang)}>
         <span class="clickable iconify tabler--search text-xl"></span>
       </a>
       <MobileNavToggle />
@@ -87,15 +102,64 @@ export const isNavItem = (item: HeaderItemType): item is NavItemType =>
                     activeHeaderLink === item.label ||
                     activeHeaderLink === item.href
                   }
+                  currentLang={currentLang}
                 />
               ) : (
-                <Dropdown {item} {activeHeaderLink} />
+                <Dropdown {item} {activeHeaderLink} {currentLang} />
               )}
             </li>
           ))
         }
+        <li class="flex flex-col justify-center">
+          <a
+            href="/search/"
+            class="flex items-center"
+            aria-label={t('common.search', currentLang)}
+          >
+            <span class="clickable iconify tabler--search"></span>
+          </a>
+        </li>
       </ul>
     </nav>
-    <Separator />
   </div>
 </header>
+
+<script>
+  // Function to update navbar links based on current language
+  function updateNavbarLinks() {
+    const currentLang = localStorage.getItem('preferredLanguage') || 'es'
+    const navbarLinks = document.querySelectorAll('a[data-original-href]')
+
+    navbarLinks.forEach((link) => {
+      const originalHref = link.getAttribute('data-original-href')
+      if (originalHref && !originalHref.startsWith('http')) {
+        if (currentLang === 'en') {
+          // For English, add /en/ prefix
+          const newHref = originalHref.startsWith('/')
+            ? `/en${originalHref}`
+            : `/en/${originalHref}`
+          link.setAttribute('href', newHref)
+        } else {
+          // For Spanish, remove /en/ prefix
+          const newHref = originalHref.startsWith('/en/')
+            ? originalHref.replace('/en/', '/')
+            : originalHref
+          link.setAttribute('href', newHref)
+        }
+      }
+    })
+  }
+
+  // Update navbar links when language changes
+  window.addEventListener('storage', (e) => {
+    if (e.key === 'preferredLanguage') {
+      updateNavbarLinks()
+    }
+  })
+
+  // Update navbar links on page load
+  document.addEventListener('astro:page-load', updateNavbarLinks)
+
+  // Also update when the page becomes visible (for back/forward navigation)
+  document.addEventListener('visibilitychange', updateNavbarLinks)
+</script>

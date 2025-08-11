@@ -2,15 +2,18 @@
 import HeaderItem from '@/components/layout/HeaderItem.astro'
 import type { NavItemParent } from '@/types'
 import { generateItemId } from '@/util'
+import { t } from '@/i18n/utils'
 
 export interface Props {
   item: NavItemParent
   activeHeaderLink?: string
+  currentLang?: 'es' | 'en'
 }
 
 const {
   item: { children, icon, label },
-  activeHeaderLink
+  activeHeaderLink,
+  currentLang = 'es'
 } = Astro.props
 
 const isActive = children.some(
@@ -19,6 +22,22 @@ const isActive = children.some(
 
 const buttonId = generateItemId(`${label}-button`)
 const menuId = generateItemId(`${label}-menu`)
+
+// Get the translation key for the dropdown label
+const getTranslationKey = (label: string) => {
+  const labelMap: Record<string, string> = {
+    Blog: 'nav.blog',
+    Proyectos: 'nav.projects',
+    Tags: 'nav.tags',
+    About: 'nav.about',
+    'Acerca de': 'nav.about',
+    Inicio: 'nav.home',
+    Home: 'nav.home'
+  }
+  return labelMap[label] || label
+}
+
+const translationKey = getTranslationKey(label)
 ---
 
 <dropdown-parent
@@ -38,7 +57,7 @@ const menuId = generateItemId(`${label}-menu`)
   >
     {icon && <span class={`iconify text-xl ${icon}`} />}
     <span class:list={[{ underline: isActive }]}>
-      {label}
+      {t(translationKey, currentLang)}
     </span>
     <span
       aria-hidden="true"
@@ -61,6 +80,7 @@ const menuId = generateItemId(`${label}-menu`)
             isActive={
               activeHeaderLink === item.label || activeHeaderLink === item.href
             }
+            {currentLang}
           />
         </li>
       ))

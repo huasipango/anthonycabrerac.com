@@ -1,0 +1,61 @@
+---
+import { getLanguageFromPath } from '@/i18n/utils'
+
+const currentLang = getLanguageFromPath(Astro.url.pathname)
+const isEnglish = currentLang === 'en'
+---
+
+<button
+  id="language-toggle-landing"
+  class="flex items-center gap-2 rounded-lg px-3 py-2 text-lg font-medium transition-colors hover:bg-gray-100 dark:hover:bg-gray-800"
+  aria-label={isEnglish ? 'Cambiar a español' : 'Switch to English'}
+>
+  <span class="text-xl">
+    {isEnglish ? '🇪🇸' : '🇬🇧'}
+  </span>
+  <span class="hidden sm:inline">
+    {isEnglish ? 'ES' : 'EN'}
+  </span>
+</button>
+
+<script>
+  function setupLanguageToggleLanding() {
+    const toggle = document.getElementById('language-toggle-landing')
+    if (!toggle) return
+
+    toggle.addEventListener('click', () => {
+      const currentLang = localStorage.getItem('preferredLanguage') || 'es'
+      const newLang = currentLang === 'es' ? 'en' : 'es'
+
+      // Update localStorage
+      localStorage.setItem('preferredLanguage', newLang)
+
+      // Get current path and redirect to the other language
+      const currentPath = window.location.pathname
+      if (newLang === 'en') {
+        // Going to English - add /en/ prefix
+        if (currentPath === '/') {
+          window.location.href = '/en/'
+        } else if (!currentPath.startsWith('/en/')) {
+          window.location.href = `/en${currentPath}`
+        }
+      } else {
+        // Going to Spanish - remove /en/ prefix
+        if (currentPath === '/en/') {
+          window.location.href = '/'
+        } else if (currentPath.startsWith('/en/')) {
+          window.location.href = currentPath.replace('/en/', '/')
+        }
+      }
+    })
+  }
+
+  // Setup on page load
+  document.addEventListener('astro:page-load', setupLanguageToggleLanding)
+
+  // Also setup when page becomes visible (for back/forward navigation)
+  document.addEventListener('visibilitychange', setupLanguageToggleLanding)
+
+  // Initial setup
+  setupLanguageToggleLanding()
+</script>
