@@ -24,7 +24,7 @@ export default defineThemeConfig({
   footerItems: [
     {
       icon: 'tabler--brand-linkedin',
-      href: 'https://www.linkedin.com/in/ianthoro/',
+      href: 'https://www.linkedin.com/in/anthoro/',
       label: 'LinkedIn'
     },
     {
@@ -34,7 +34,7 @@ export default defineThemeConfig({
     },
     {
       icon: 'tabler--brand-facebook',
-      href: 'https://www.facebook.com/ianthoro',
+      href: 'https://www.facebook.com/anthony.cabrera.479657',
       label: 'Facebook'
     },
     {
